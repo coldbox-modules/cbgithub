@@ -14,7 +14,8 @@ component {
         struct body = {},
         any token,
         string username,
-        string password
+        string password,
+        any exceptionHandler
     ) {
         if ( isNull( token ) && isNull( username ) && isNull( password ) ) {
             token = settings.token;
@@ -39,6 +40,14 @@ component {
 
         if ( response.responseheader.status_code == 401 ) {
             throw( type = "BadCredentials", message = "Bad Credentials" );
+        }
+
+        if ( ! isNull( arguments.exceptionHandler ) ) {
+            exceptionHandler( response, deserializeJSON( response.filecontent ) );
+        }
+
+        if ( left( response.responseheader.status_code, 1 ) == 4 || left( response.responseheader.status_code, 1 ) == 5 ) {
+            throw( type = "APIError", message = response.filecontent );
         }
 
         return response;

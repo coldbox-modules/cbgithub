@@ -19,8 +19,6 @@ component {
         return arrayMap( result, function( token ) {
             return populateTokenFromAPI( token );
         } );
-
-        return [];
     }
 
     function createToken(
@@ -48,25 +46,26 @@ component {
             body = {
                 "scopes" = scopes,
                 "note" = note
+            },
+            exceptionHandler = function( response, result ) {
+                if ( needsTwoFactorCode( response ) ) {
+                    throw(
+                        type = "TwoFactorAuthRequired",
+                        message = "A 2-factor authentication code is required."
+                    );
+                }
+
+                if ( tokenAlreadyExists( result ) ) {
+                    throw(
+                        type = "TokenAlreadyExists",
+                        message = "A token for [#note#] already exists for this user."
+                    );
+                }
             }
         );
 
-        if ( needsTwoFactorCode( response ) ) {
-            throw(
-                type = "TwoFactorAuthRequired",
-                message = "A 2-factor authentication code is required."
-            );
-        }
-
         var result = deserializeJSON( response.filecontent );
         result = convertNullToEmptyString( result );
-
-        if ( tokenAlreadyExists( result ) ) {
-            throw(
-                type = "TokenAlreadyExists",
-                message = "A token for [#arguments.note#] already exists for this user."
-            );
-        }
 
         return populator.populateFromStruct(
             target = wirebox.getInstance( "Token@cbgithub" ),
