@@ -8,11 +8,13 @@ component accessors="true" {
     property name="id";
     property name="owner";
     property name="name";
+    property name="sshUrl" default="";
     property name="description" default="";
     property name="private" default="false";
     property name="created" default="false";
 
     function init() {
+        varaibles.sshUrl = "";
         varaibles.description = "";
         variables.private = false;
         variables.created = false;
@@ -29,9 +31,7 @@ component accessors="true" {
     ) {
         if ( ! getCreated() ) {
             arguments.repo = this;
-            var newRepo = RepositoryService.create( argumentCollection = arguments );
-            setId( newRepo.getId() );
-            setCreated( true );
+            return RepositoryService.create( argumentCollection = arguments );
         }
         return this;
     }

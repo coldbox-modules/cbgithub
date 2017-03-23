@@ -54,7 +54,7 @@ component {
         };
         var response = APIRequest.post( argumentCollection = arguments );
         var result = deserializeJSON( response.filecontent );
-        return populateRepoFromAPI( result );
+        return populateRepoFromAPI( result, repo );
     }
 
     function delete(
@@ -67,13 +67,21 @@ component {
         APIRequest.delete( argumentCollection = arguments );
     }
 
-    private function populateRepoFromAPI( repo ) {
-        repo.created = true;
-        repo.owner = repo.owner.login;
-        repo.description = isNull( repo.description ) ? "" : repo.description;
+    private function populateRepoFromAPI(
+        required struct result,
+        repo = wirebox.getInstance( "Repository@cbgithub" )
+    ) {
         return populator.populateFromStruct(
-            target = wirebox.getInstance( "Repository@cbgithub" ),
-            memento = repo,
+            target = repo,
+            memento = {
+                "id" = result.id,
+                "created" = true,
+                "name" = result.name,
+                "owner" = result.owner.login,
+                "description" = result.description,
+                "sshUrl" = result.ssh_url,
+                "private" = result.private
+            },
             ignoreEmpty = true
         );
     }
