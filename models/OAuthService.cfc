@@ -22,7 +22,6 @@ component {
         arguments.headers = { "X-GitHub-OTP" = oneTimePassword };
         var response = APIRequest.get( argumentCollection = arguments );
         var result = deserializeJSON( response.filecontent );
-        result = convertNullToEmptyString( result );
 
         return arrayMap( result, function( token ) {
             return populateTokenFromAPI( token );
@@ -73,7 +72,6 @@ component {
         );
 
         var result = deserializeJSON( response.filecontent );
-        result = convertNullToEmptyString( result );
 
         return populator.populateFromStruct(
             target = wirebox.getInstance( "Token@cbgithub" ),
@@ -105,33 +103,4 @@ component {
             } ) );
     }
 
-    private any function convertNullToEmptyString( required any result ) {
-        if ( isNull( result ) ) {
-            return "";
-        }
-
-        if ( isStruct( result ) ) {
-            var newStruct = {};
-            for ( var key in result ) {
-                if ( ! structKeyExists( result, key ) || isNull( result[ key ] ) ) {
-                    newStruct[ key ] = "";    
-                }
-                else {
-                    newStruct[ key ] = convertNullToEmptyString(
-                        result[ key ]
-                    );
-                }
-            }
-            return newStruct;
-        }
-
-        if ( isArray( result ) ) {
-            return arrayMap( result, function( item ) {
-                return convertNullToEmptyString( item );
-            } );
-        }
-
-        return result;
-    }
-    
 }

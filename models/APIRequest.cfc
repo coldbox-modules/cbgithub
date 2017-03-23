@@ -33,7 +33,7 @@ component {
             createAuthorizationHeader( argumentCollection = arguments )
         );
 
-        cfhttp( method = method, url = createAPIUrl( endpoint ), result = "response" ) {
+        cfhttp( method = method, url = createAPIUrl( endpoint ) ) {
             for ( var key in headers ) {
                 cfhttpparam( type = "header", name = key, value = headers[ key ] );
             }
@@ -41,6 +41,8 @@ component {
                 cfhttpparam( type = "body", value = serializeJson( body ) );
             }
         }
+
+        var response = duplicate( cfhttp );
 
         if ( ! isNull( arguments.exceptionHandler ) ) {
             exceptionHandler( response, deserializeJSON( response.filecontent ) );
@@ -52,6 +54,12 @@ component {
 
         if ( left( response.responseheader.status_code, 1 ) == 4 || left( response.responseheader.status_code, 1 ) == 5 ) {
             throw( type = "APIError", message = response.filecontent );
+        }
+
+        if ( len( response.filecontent ) ) {
+            response[ "filecontent" ] = serializeJSON(
+                convertNullToEmptyString( deserializeJSON( response.filecontent ) )
+            );    
         }
 
         return response;
@@ -117,6 +125,35 @@ component {
             endpoint = mid( endpoint, 2, len( endpoint ) );
         }
         return variables.hostname & endpoint;
+    }
+
+    private any function convertNullToEmptyString( required any result ) {
+        if ( isNull( result ) ) {
+            return "";
+        }
+
+        if ( isStruct( result ) ) {
+            var newStruct = {};
+            for ( var key in result ) {
+                if ( ! structKeyExists( result, key ) || isNull( result[ key ] ) ) {
+                    newStruct[ key ] = "";    
+                }
+                else {
+                    newStruct[ key ] = convertNullToEmptyString(
+                        result[ key ]
+                    );
+                }
+            }
+            return newStruct;
+        }
+
+        if ( isArray( result ) ) {
+            return arrayMap( result, function( item ) {
+                return convertNullToEmptyString( item );
+            } );
+        }
+
+        return result;
     }
 
 }
