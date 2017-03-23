@@ -22,17 +22,27 @@ component accessors="true" {
         return "#getOwner()#/#getName()#";
     }
 
-    function save() {
+    function save(
+        string token,
+        string username,
+        string password
+    ) {
         if ( ! getCreated() ) {
-            var repo = RepositoryService.create( this );
-            setId( repo.getId() );
+            arguments.repo = this;
+            var newRepo = RepositoryService.create( argumentCollection = arguments );
+            setId( newRepo.getId() );
             setCreated( true );
         }
         return this;
     }
 
-    function delete() {
-        RepositoryService.delete( this );
+    function delete(
+        string token,
+        string username,
+        string password
+    ) {
+        arguments.repo = this;
+        RepositoryService.delete( argumentCollection = arguments );
         setId( "" );
         setCreated( false );
         return this;

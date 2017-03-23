@@ -40,7 +40,12 @@ component {
         } );
     }
 
-    function create( required Repository repo ) {
+    function create(
+        required Repository repo,
+        string token,
+        string username,
+        string password
+    ) {
         arguments.endpoint = "/user/repos";
         arguments.body = {
             "name" = repo.getName(),
@@ -52,7 +57,12 @@ component {
         return populateRepoFromAPI( result );
     }
 
-    function delete( required Repository repo ) {
+    function delete(
+        required Repository repo,
+        string token,
+        string username,
+        string password
+    ) {
         arguments.endpoint = "/repos/#repo.getOwner()#/#repo.getName()#";
         APIRequest.delete( argumentCollection = arguments );
     }
