@@ -3,18 +3,26 @@ component {
     property name="wirebox" inject="wirebox";
     property name="populator" inject="wirebox:populator";
     property name="APIRequest" inject="APIRequest@cbgithub";
-    property name="settings" inject="coldbox:modulesettings:cbgithub";
+
+    function onDIComplete() {
+        if ( structKeyExists( application, "cbcontroller" ) ) {
+            variables.settings = wirebox.getInstance( dsl = "coldbox:modulesettings:cbgithub" );
+        }
+    }
 
     function getAll(
         string username,
-        string password
+        string password,
+        string oneTimePassword = ""
     ) {
         if ( isNull( username ) ) { username = settings.username; }
         if ( isNull( password ) ) { password = settings.password; }
 
         arguments.endpoint = "/authorizations";
+        arguments.headers = { "X-GitHub-OTP" = oneTimePassword };
         var response = APIRequest.get( argumentCollection = arguments );
         var result = deserializeJSON( response.filecontent );
+        result = convertNullToEmptyString( result );
 
         return arrayMap( result, function( token ) {
             return populateTokenFromAPI( token );

@@ -1,11 +1,15 @@
 component {
 
-    property name="settings" inject="coldbox:modulesettings:cbgithub";
-
     variables.hostname = "https://api.github.com/";
     variables.defaultHeaders = {
         "Content-Type" = "application/json"
     };
+
+    function onDIComplete() {
+        if ( structKeyExists( application, "cbcontroller" ) ) {
+            variables.settings = application.wirebox.getInstance( dsl = "coldbox:modulesettings:cbgithub" );
+        }
+    }
 
     public function makeRequest(
         required string method,
@@ -33,17 +37,17 @@ component {
             for ( var key in headers ) {
                 cfhttpparam( type = "header", name = key, value = headers[ key ] );
             }
-            if ( method != "get" ) {
+            if ( method == "post" || method == "put" ) {
                 cfhttpparam( type = "body", value = serializeJson( body ) );
             }
         }
 
-        if ( response.responseheader.status_code == 401 ) {
-            throw( type = "BadCredentials", message = "Bad Credentials" );
-        }
-
         if ( ! isNull( arguments.exceptionHandler ) ) {
             exceptionHandler( response, deserializeJSON( response.filecontent ) );
+        }
+
+        if ( response.responseheader.status_code == 401 ) {
+            throw( type = "BadCredentials", message = "Bad Credentials" );
         }
 
         if ( left( response.responseheader.status_code, 1 ) == 4 || left( response.responseheader.status_code, 1 ) == 5 ) {
