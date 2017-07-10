@@ -1,8 +1,8 @@
 {
     "name":"cbgithub",
-    "version":"0.1.3",
+    "version":"0.1.4",
     "author":"Eric Peterson",
-    "location":"elpete/cbgithub#v0.1.3",
+    "location":"elpete/cbgithub#v0.1.4",
     "homepage":"https://github.com/elpete/cbgithub",
     "documentation":"https://github.com/elpete/cbgithub",
     "repository":{
