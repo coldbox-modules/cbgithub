@@ -18,6 +18,15 @@
         "doc",
         "test"
       ]
+    },
+    {
+      "login": "richardherbert",
+      "name": "Richard Herbert",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1644678?v=3",
+      "profile": "https://twitter.com/richardherbert",
+      "contributions": [
+        "doc"
+      ]
     }
   ]
 }
