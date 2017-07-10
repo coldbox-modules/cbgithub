@@ -1,4 +1,5 @@
 # cbgithub
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
 [![Master Branch Build Status](https://img.shields.io/travis/elpete/cbgithub/master.svg?style=flat-square&label=master)](https://travis-ci.org/elpete/cbgithub)
 
@@ -51,3 +52,14 @@ moduleSettings = {
 ## Testing
 
 To run the tests, first copy the `.env.example` file to `.env` and fill out the required properties.  This is used to test against the actual GitHub api without persisting any changes.  Additionally, some of the tests require 2-factor authentication to be turned off. (Don't worry, we fully support 2-factor authentication!)
+
+## Contributors
+
+Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+| [<img src="https://avatars2.githubusercontent.com/u/2583646?v=3" width="100px;"/><br /><sub>Eric Peterson</sub>](https://github.com/elpete)<br />[💬](#question-elpete "Answering Questions") [💻](https://github.com/elpete/cbgithub/commits?author=elpete "Code") [📖](https://github.com/elpete/cbgithub/commits?author=elpete "Documentation") [⚠️](https://github.com/elpete/cbgithub/commits?author=elpete "Tests") |
+| :---: |
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
