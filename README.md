@@ -53,6 +53,10 @@ moduleSettings = {
 
 To run the tests, first copy the `.env.example` file to `.env` and fill out the required properties.  This is used to test against the actual GitHub api without persisting any changes.  Additionally, some of the tests require 2-factor authentication to be turned off. (Don't worry, we fully support 2-factor authentication!)
 
+## Compatibility
+
+This project has been tested against Adobe ColdFusion 11+ and Lucee 4.5+ servers.
+
 ## Contributors
 
 Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
