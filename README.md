@@ -48,6 +48,167 @@ moduleSettings = {
 ```
 
 **Remember**: Don't commit these details to a publicly accessible GitHub repository otherwise your account could be compromised!
+## Contents Endpoint
+
+GitHub offers a set of endpoints that provide [access to the contents of files](https://developer.github.com/v3/repos/contents/) in the repository. These include the ability to read the README file and any other file. Also it's possible to create, update and delete any file in the repository.
+
+### getReadMe( owner, repo, ref, encoding )
+
+I return a `Content` object populated with information about the `README` file. Calling the `getContent()` method on the `Content` object will decode the raw `base64` string.
+
+#### Example
+
+```
+property name="ContentService" inject="ContentService@cbgithub";
+
+...
+
+readme = ContentService.getReadMe( owner="elpete", repo="cbgithub", ref="master", encoding="utf-8" );
+```
+
+#### Arguments
+
+Argument | Description
+-------- | -----------
+`owner` (required, string) | Name of the GitHub account
+`repo` (required, string) | Name of the repository of the `owner`
+`ref` (optional, string="master") | Name of the branch, tag or commit to read from
+`encoding` (optional, string="utf-8") | Type of file encoding
+
+#### Response
+
+<table>
+	<thead>
+		<tr>
+			<th>Property</th>
+			<th>Type</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>content</td>
+			<td>string</td>
+			<td>
+				IyBjYmdpdGh1YgoKWyFbTWFzdGVyIEJyYW5jaCBCdWlsZCBTdGF0dXNdKGh0
+dHBzOi8vaW1nLnNoaWVsZHMuaW8vdHJhdmlzL2VscGV0ZS9jYmdpdGh1Yi9t
+YXN0ZXIuc3ZnP3N0eWxlPWZsYXQtc3F1YXJlJmxhYmVsPW1hc3RlcildKGh0
+dHBzOi8vdHJhdmlzLWNpLm9yZy9lbHBldGUvY2JnaXRodWIpCgoKIyMgQSBD
+Rk1MIFdyYXBwZXIgYXJvdW5kIHRoZSBHaXRIdWIgQVBJIG9wdGltaXplZCBm
+b3IgQ29sZEJveAoKIyMgVGVzdGluZwoKVG8gcnVuIHRoZSB0ZXN0cywgZmly
+c3QgY29weSB0aGUgYC5lbnYuZXhhbXBsZWAgZmlsZSB0byBgLmVudmAgYW5k
+IGZpbGwgb3V0IHRoZSByZXF1aXJlZCBwcm9wZXJ0aWVzLiAgVGhpcyBpcyB1
+c2VkIHRvIHRlc3QgYWdhaW5zdCB0aGUgYWN0dWFsIEdpdEh1YiBhcGkgd2l0
+aG91dCBwZXJzaXN0aW5nIGFueSBjaGFuZ2VzLiAgQWRkaXRpb25hbGx5LCBz
+b21lIG9mIHRoZSB0ZXN0cyByZXF1aXJlIDItZmFjdG9yIGF1dGhlbnRpY2F0
+aW9uIHRvIGJlIHR1cm5lZCBvZmYuIChEb24ndCB3b3JyeSwgd2UgZnVsbHkg
+c3VwcG9ydCAyLWZhY3RvciBhdXRoZW50aWNhdGlvbiEp
+			</td>
+		</tr>
+		<tr>
+			<td>_links</td>
+			<td>struct</td>
+			<td>
+				<table>
+					<thead>
+						<tr>
+							<th>Property</th>
+							<th>Type</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>html</td>
+							<td>string</td>
+							<td>https://github.com/elpete/cbgithub/blob/master/README.md</td>
+						</tr>
+						<tr>
+							<td>self</td>
+							<td>string</td>
+							<td>
+								https://api.github.com/repos/elpete/cbgithub/contents/README.md?ref=master
+							</td>
+						</tr>
+						<tr>
+							<td>git</td>
+							<td>string</td>
+							<td>
+								https://api.github.com/repos/elpete/cbgithub/git/blobs/6b029017cb3349add550d491729e435d7cafa7d3
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>html_url</td>
+			<td>string</td>
+			<td>https://github.com/elpete/cbgithub/blob/master/README.md</td>
+		</tr>
+		<tr>
+			<td>sha</td>
+			<td>string</td>
+			<td>6b029017cb3349add550d491729e435d7cafa7d3</td>
+		</tr>
+		<tr>
+			<td>path</td>
+			<td>string</td>
+			<td>README.md</td>
+		</tr>
+		<tr>
+			<td>url</td>
+			<td>string</td>
+			<td>
+				https://api.github.com/repos/elpete/cbgithub/contents/README.md?ref=master
+			</td>
+		</tr>
+		<tr>
+			<td>size</td>
+			<td>number</td>
+			<td>573</td>
+		</tr>
+		<tr>
+			<td>name</td>
+			<td>string</td>
+			<td>README.md</td>
+		</tr>
+        <tr>
+            <td>submodule_git_url</td>
+            <td>string</td>
+            <td></td>
+        </tr>
+		<tr>
+			<td>type</td>
+			<td>string</td>
+			<td>file</td>
+		</tr>
+		<tr>
+			<td>git_url</td>
+			<td>string</td>
+			<td>
+				https://api.github.com/repos/elpete/cbgithub/git/blobs/6b029017cb3349add550d491729e435d7cafa7d3
+			</td>
+		</tr>
+		<tr>
+			<td>download_url</td>
+			<td>string</td>
+			<td>
+				https://raw.githubusercontent.com/elpete/cbgithub/master/README.md
+			</td>
+		</tr>
+		<tr>
+			<td>encoding</td>
+			<td>string</td>
+			<td>base64</td>
+		</tr>
+        <tr>
+            <td>mimetype</td>
+            <td>string</td>
+            <td>text/plain</td>
+        </tr>
+	</tbody>
+</table>
 
 ## Testing
 

@@ -25,7 +25,9 @@
       "avatar_url": "https://avatars2.githubusercontent.com/u/1644678?v=3",
       "profile": "https://twitter.com/richardherbert",
       "contributions": [
-        "doc"
+        "code",
+        "doc",
+        "test"
       ]
     }
   ]
