@@ -17,25 +17,38 @@ component extends="coldbox.system.testing.BaseTestCase" {
     }
 
     function loadEnv() {
-        var filePath = expandPath( "../.env" );
-        if ( ! fileExists( filePath ) ) {
-            throw( "No .env file found.  Please see the README.md for getting started with the tests." )
-        }
-        var properties = createObject( "java", "java.util.Properties" ).init();
-        properties.load( createObject( "java", "java.io.FileInputStream" )
-            .init( filePath ) );
-
         application.env = {};
-        for ( var key in properties ) {
-            application.env[ key ] = properties[ key ];
+        
+        var system = createObject( "java", "java.lang.System" );
+
+        // Server Environment Variables
+        var envVars = system.getEnv();
+        for ( var key in envVars ) {
+            application.env[ key ] = envVars[ key ];
+        }
+
+        // Java System Properties
+        var systemProps = system.getProperties();
+        for ( var key in systemProps ) {
+            application.env[ key ] = systemProps[ key ];
+        }
+        
+        // .env file
+        var filePath = expandPath( "../.env" );
+        if ( fileExists( filePath ) ) {
+            var properties = createObject( "java", "java.util.Properties" ).init();
+            properties.load( createObject( "java", "java.io.FileInputStream" ).init( filePath ) );
+            for ( var key in properties ) {
+                application.env[ key ] = properties[ key ];
+            }
         }
 
         if ( isNull( application.env[ "GITHUB_USERNAME" ] ) || application.env[ "GITHUB_USERNAME" ] == "" ) {
-            throw( "You must specify a GitHub username in your .env file" );
+            throw( "You must specify a GitHub username in your environment variables" );
         }
 
         if ( isNull( application.env[ "GITHUB_TOKEN" ] ) || application.env[ "GITHUB_TOKEN" ] == "" ) {
-            throw( "You must specify a GitHub token in your .env file" );
+            throw( "You must specify a GitHub token in your environment variables" );
         }
     }
 
