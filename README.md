@@ -20,7 +20,7 @@ You should already have these details from when you setup your GitHub account.
 
 A Personal Access Token is generated from within your GitHub Account online.
 
-First [sign in to your GitHub Account](https://github.com/login) using your username or email address and password. Then, from your account (top right dropdown), select `Settings` then `Personal access token` under `Developer settings`. Select `Generate new token` and provide a `Token description` such as `cbgithub`. Choose the `Select scopes` that are appropriate for the access you need to this GitHub account. Make a note of the new personal access token generated.
+First [sign in to your GitHub Account](https://github.com/login) using your username or email address and password. Then, from your account (top right dropdown), select `Settings` then `Personal access token` under `Developer settings`. Select `Generate new token` and provide a `Token description` such as `cbgithub`. Choose the `Select scopes` that are appropriate for the access you need to this GitHub account. If you want to create, update or delete content you will have to have enable `public_repo` as a minimum. Make a note of the new personal access token generated.
 
 #### Configuring cbgithub Security
 
@@ -52,7 +52,7 @@ moduleSettings = {
 
 GitHub offers a set of endpoints that provide [access to the contents of files](https://developer.github.com/v3/repos/contents/) in the repository. These include the ability to read the README file and any other file. Also it's possible to create, update and delete any file in the repository.
 
-### getReadMe( owner, repo, ref, encoding )
+### getReadme( owner, repo, ref, encoding )
 
 I return a `Content` object populated with information about the `README` file. Calling the `getContent()` method on the `Content` object will decode the raw `base64` string.
 
@@ -63,7 +63,7 @@ property name="ContentService" inject="ContentService@cbgithub";
 
 ...
 
-readme = ContentService.getReadMe( owner="elpete", repo="cbgithub", ref="master", encoding="utf-8" );
+readme = ContentService.getReadme( owner="elpete", repo="cbgithub", ref="master", encoding="utf-8" );
 ```
 
 #### Arguments
@@ -195,6 +195,167 @@ c3VwcG9ydCAyLWZhY3RvciBhdXRoZW50aWNhdGlvbiEp
 			<td>string</td>
 			<td>
 				https://raw.githubusercontent.com/elpete/cbgithub/master/README.md
+			</td>
+		</tr>
+		<tr>
+			<td>encoding</td>
+			<td>string</td>
+			<td>base64</td>
+		</tr>
+        <tr>
+            <td>mimetype</td>
+            <td>string</td>
+            <td>text/plain</td>
+        </tr>
+	</tbody>
+</table>
+
+### read( owner, repo, path, ref, encoding )
+
+I return a `Content` object populated with information about the requested file. Calling the `getContent()` method on the `Content` object will decode the raw `base64` string if it is has the mime type of text/plain.
+
+#### Example
+
+```
+property name="ContentService" inject="ContentService@cbgithub";
+
+...
+
+file = ContentService.read( owner="elpete", repo="cbgithub", path="models/Content.cfc", ref="master", encoding="utf-8" );
+```
+
+#### Arguments
+
+Argument | Description
+-------- | -----------
+`owner` (required, string) | Name of the GitHub account
+`repo` (required, string) | Name of the repository of the `owner`
+`path` (required, string) | File pathname of the file to retrieve
+`ref` (optional, string="master") | Name of the branch, tag or commit to read from
+`encoding` (optional, string="utf-8") | Type of file encoding
+
+#### Response
+
+<table>
+	<thead>
+		<tr>
+			<th>Property</th>
+			<th>Type</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>content</td>
+			<td>string</td>
+			<td>
+				JyYW5jaCBCdWlsZCBTdGF0dXNdKGh0IyBjYmdpdGh1YgoKWyFbTWFzdGVyIE
+YXN0ZXIuc3ZnP3N0eWxlPWZsYXQtc3F1YXJlJmxhYmVsPW1hc3RlcildKGh0
+dHBzOi8vdHJhdmlzLWNpLm9yZy9lbHBldGUvY2JnaXRodWIpCgoKIyMgQSBD
+aG91dCBwZXJzaXN0aW5nIGFueSBjaGFuZ2VzLiAgQWRkaXRpb25hbGx5LCBz
+Rk1MIFdyYXBwZXIgYXJvdW5kIHRoZSBHaXRIdWIgQVBJIG9wdGltaXplZCBm
+dHBzOi8vaW1nLnNoaWVsZHMuaW8vdHJhdmlzL2VscGV0ZS9jYmdpdGh1Yi9t
+c3QgY29weSB0aGUgYC5lbnYuZXhhbXBsZWAgZmlsZSB0byBgLmVudmAgYW5k
+b3IgQ29sZEJveAoKIyMgVGVzdGluZwoKVG8gcnVuIHRoZSB0ZXN0cywgZmly
+IGZpbGwgb3V0IHRoZSByZXF1aXJlZCBwcm9wZXJ0aWVzLiAgVGhpcyBpcyB1
+c2VkIHRvIHRlc3QgYWdhaW5zdCB0aGUgYWN0dWFsIEdpdEh1YiBhcGkgd2l0
+aW9uIHRvIGJlIHR1cm5lZCBvZmYuIChEb24ndCB3b3JyeSwgd2UgZnVsbHkg
+b21lIG9mIHRoZSB0ZXN0cyByZXF1aXJlIDItZmFjdG9yIGF1dGhlbnRpY2F0
+XRoZW50aWNhdGlvbiEpc3VwcG9ydCAyLWZhY3RvciBhd
+			</td>
+		</tr>
+		<tr>
+			<td>_links</td>
+			<td>struct</td>
+			<td>
+				<table>
+					<thead>
+						<tr>
+							<th>Property</th>
+							<th>Type</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>html</td>
+							<td>string</td>
+							<td>
+								https://github.com/elpete/cbgithub/blob/master/models/Content.cfc
+							</td>
+						</tr>
+						<tr>
+							<td>self</td>
+							<td>string</td>
+							<td>
+								https://api.github.com/repos/elpete/cbgithub/contents/models/Content.cfc?ref=master
+							</td>
+						</tr>
+						<tr>
+							<td>git</td>
+							<td>string</td>
+							<td>
+								https://api.github.com/repos/elpete/cbgithub/git/blobs/8d1a3dd6c0c4ae7de4bb4f9cbaf2e4b54fda3fa6
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>html_url</td>
+			<td>string</td>
+			<td>https://github.com/elpete/cbgithub/blob/master/models/Content.cfc</td>
+		</tr>
+		<tr>
+			<td>sha</td>
+			<td>string</td>
+			<td>8d1a3dd6c0c4ae7de4bb4f9cbaf2e4b54fda3fa6</td>
+		</tr>
+		<tr>
+			<td>path</td>
+			<td>string</td>
+			<td>models/Content.cfc</td>
+		</tr>
+		<tr>
+			<td>url</td>
+			<td>string</td>
+			<td>
+				https://api.github.com/repos/elpete/cbgithub/contents/models/Content.cfc?ref=master
+			</td>
+		</tr>
+		<tr>
+			<td>size</td>
+			<td>number</td>
+			<td>2335</td>
+		</tr>
+		<tr>
+			<td>name</td>
+			<td>string</td>
+			<td>Content.cfc</td>
+		</tr>
+        <tr>
+            <td>submodule_git_url</td>
+            <td>string</td>
+            <td></td>
+        </tr>
+		<tr>
+			<td>type</td>
+			<td>string</td>
+			<td>file</td>
+		</tr>
+		<tr>
+			<td>git_url</td>
+			<td>string</td>
+			<td>
+				https://api.github.com/repos/elpete/cbgithub/git/blobs/8d1a3dd6c0c4ae7de4bb4f9cbaf2e4b54fda3fa6
+			</td>
+		</tr>
+		<tr>
+			<td>download_url</td>
+			<td>string</td>
+			<td>
+				https://raw.githubusercontent.com/elpete/cbgithub/master/models/Content.cfc
 			</td>
 		</tr>
 		<tr>

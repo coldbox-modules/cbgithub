@@ -33,15 +33,20 @@ component accessors="true" {
     }
 
     function getContent(
+        boolean decode = true,
         string encoding = "UTF-8"
     ) {
-        var decodedContent = decodeContent();
+        if ( arguments.decode ) {
+            var decodedContent = decodeContent();
 
-        if ( getMimeType() == "text/plain" ) {
-            return toString( decodedContent, arguments.encoding );
+            if ( listFirst( getMimeType(), "/" ) == "text" ) {
+                return toString( decodedContent, arguments.encoding );
+            }
+
+            return decodedContent;
+        } else {
+            return variables.content;
         }
-
-        return decodedContent;
     }
 
     function getMimeType() {

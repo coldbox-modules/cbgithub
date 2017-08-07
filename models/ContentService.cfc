@@ -13,9 +13,35 @@ component {
         arguments.endpoint = "/repos/#arguments.owner#/#repo#/readme?ref=#arguments.ref#";
 
         var response = APIRequest.get( argumentCollection = arguments );
+
         var result = deserializeJSON( response.filecontent );
 
         return populateContentFromAPI( result );
+    }
+
+    function read(
+        required string owner,
+        required string repo,
+        required string path,
+        string ref = "master",
+        string encoding = "utf-8"
+    ) {
+        arguments.endpoint = "/repos/#arguments.owner#/#repo#/contents/#path#?ref=#arguments.ref#";
+
+        var response = APIRequest.get( argumentCollection = arguments );
+        var result = deserializeJSON( response.filecontent );
+
+        if ( isArray( result ) ) {
+            var contents = [];
+
+            for ( var content in result ) {
+                contents.append( populateContentFromAPI( content, arguments.encoding ) );
+            }
+        } else {
+            var contents = populateContentFromAPI( result, arguments.encoding );
+        }
+
+        return contents;
     }
 
     private function populateContentFromAPI(
