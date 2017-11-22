@@ -2,20 +2,20 @@
     "name":"cbgithub",
     "version":"0.2.0",
     "author":"Eric Peterson",
-    "location":"elpete/cbgithub#v0.2.0",
-    "homepage":"https://github.com/elpete/cbgithub",
-    "documentation":"https://github.com/elpete/cbgithub",
+    "location":"coldbox-modules/cbgithub#v0.2.0",
+    "homepage":"https://github.com/coldbox-modules/cbgithub",
+    "documentation":"https://github.com/coldbox-modules/cbgithub",
     "repository":{
         "type":"git",
-        "URL":"https://github.com/elpete/cbgithub"
+        "URL":"https://github.com/coldbox-modules/cbgithub"
     },
-    "bugs":"https://github.com/elpete/cbgithub/issues",
+    "bugs":"https://github.com/coldbox-modules/cbgithub/issues",
     "slug":"cbgithub",
     "shortDescription":"A CFML Wrapper around the GitHub API optimized for ColdBox",
     "description":"A CFML Wrapper around the GitHub API optimized for ColdBox",
     "type":"modules",
     "dependencies":{
-        
+
     },
     "devDependencies":{
         "coldbox":"^4.3.0+188",
@@ -26,7 +26,7 @@
         "coldbox":"tests/resources/app/coldbox"
     },
     "scripts":{
-        "postVersion":"package set location='elpete/cbgithub#v`package version`'",
+        "postVersion":"package set location='coldbox-modules/cbgithub#v`package version`'",
         "onRelease":"publish",
         "postPublish":"!git push && !git push --tags"
     },
