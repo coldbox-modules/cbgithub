@@ -5,6 +5,11 @@ component accessors="true" {
         getter="false"
         setter="false";
 
+    property name="UserService"
+        inject="UserService@cbgithub"
+        getter="false"
+        setter="false";
+
     property name="id";
     property name="owner";
     property name="name";
@@ -22,6 +27,25 @@ component accessors="true" {
 
     function getFullName() {
         return "#getOwner()#/#getName()#";
+    }
+
+    function isStarred() {
+        if ( isNull( variables.starred ) ) {
+            variables.starred = userService.hasStarredRepo( this );
+        }
+        return variables.starred;
+    }
+
+    function star() {
+        userService.starRepo( this );
+        variables.starred = true;
+        return this;
+    }
+
+    function unstar() {
+        userService.unstarRepo( this );
+        variables.starred = false;
+        return this;
     }
 
     function save(

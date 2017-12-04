@@ -59,7 +59,7 @@ component {
         if ( len( response.filecontent ) ) {
             response[ "filecontent" ] = serializeJSON(
                 convertNullToEmptyString( deserializeJSON( response.filecontent ) )
-            );    
+            );
         }
 
         return response;
@@ -86,6 +86,18 @@ component {
         string password
     ) {
         arguments.method = "post";
+        return makeRequest( argumentCollection = arguments );
+    }
+
+    public struct function put(
+        required string endpoint,
+        struct headers = {},
+        struct body = {},
+        string token,
+        string username,
+        string password
+    ) {
+        arguments.method = "put";
         return makeRequest( argumentCollection = arguments );
     }
 
@@ -136,7 +148,7 @@ component {
             var newStruct = {};
             for ( var key in result ) {
                 if ( ! structKeyExists( result, key ) || isNull( result[ key ] ) ) {
-                    newStruct[ key ] = "";    
+                    newStruct[ key ] = "";
                 }
                 else {
                     newStruct[ key ] = convertNullToEmptyString(

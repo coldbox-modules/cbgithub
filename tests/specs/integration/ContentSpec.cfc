@@ -22,7 +22,7 @@ component extends="tests.resources.ModuleIntegrationSpec" appMapping="/app" {
 
     function run() {
         describe( "Contents", function() {
-            var owner = "elpete";
+            var owner = "coldbox-modules";
             var repo  = "cbgithub";
             var ref   = "master";
 
