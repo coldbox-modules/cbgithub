@@ -1,8 +1,8 @@
 {
     "name":"cbgithub",
-    "version":"0.2.1",
+    "version":"0.3.0",
     "author":"Eric Peterson",
-    "location":"coldbox-modules/cbgithub#v0.2.1",
+    "location":"coldbox-modules/cbgithub#v0.3.0",
     "homepage":"https://github.com/coldbox-modules/cbgithub",
     "documentation":"https://github.com/coldbox-modules/cbgithub",
     "repository":{
