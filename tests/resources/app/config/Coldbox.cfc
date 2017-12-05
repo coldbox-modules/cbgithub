@@ -47,9 +47,9 @@
 
 		moduleSettings = {
 			cbgithub = {
-				"token" = application.env[ "GITHUB_TOKEN" ],
-				"username" = application.env[ "GITHUB_USERNAME" ],
-				"password" = application.env[ "GITHUB_PASSWORD" ]
+				"token" = getSystemSetting( "GITHUB_TOKEN" ),
+				"username" = getSystemSetting( "GITHUB_USERNAME" ),
+				"password" = getSystemSetting( "GITHUB_PASSWORD" )
 			}
 		};
 
@@ -157,6 +157,27 @@
 	*/
 	function development(){
 		coldbox.customErrorTemplate = "/coldbox/system/includes/BugReport.cfm";
-	}
+    }
+
+    function getSystemSetting( name, defaultValue ) {
+        var system = createObject( "java", "java.lang.System" );
+        var envValue = system.getEnv( name );
+        if ( ! isNull( envValue ) ) {
+            return envValue;
+        }
+
+        var propertyValue = system.getProperty( name );
+        if ( ! isNull( propertyValue ) ) {
+            return propertyValue;
+        }
+
+        if ( ! isNull( defaultValue ) ) {
+            return defaultValue;
+        }
+
+        throw( "No env var or java system property exists for key [#name#]" );
+    }
+
+
 
 }
