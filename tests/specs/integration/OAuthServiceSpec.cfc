@@ -9,15 +9,15 @@ component extends="tests.resources.ModuleIntegrationSpec" appMapping="/app" {
         describe( "retrieving tokens", function() {
             it( "can retrieve all tokens for the authorized user", function() {
                 var tokens = OAuthService.getAll(
-                    username = application.env[ "GITHUB_USERNAME" ],
-                    password = application.env[ "GITHUB_PASSWORD" ]
+                    username = getSystemSetting( "GITHUB_USERNAME" ),
+                    password = getSystemSetting( "GITHUB_PASSWORD" )
                 );
 
                 expect( tokens ).notToBeNull();
                 expect( tokens ).toBeArray();
                 expect( tokens ).toHaveLength( 1 );
                 expect( tokens[ 1 ].getTokenLastEight() )
-                    .toBe( right( application.env[ "GITHUB_TOKEN" ], 8 ) );
+                    .toBe( right( getSystemSetting( "GITHUB_TOKEN" ), 8 ) );
             } );
         } );
 
@@ -30,8 +30,8 @@ component extends="tests.resources.ModuleIntegrationSpec" appMapping="/app" {
             } );
             it( "can create a token with a valid username and password and array of valid scopes", function() {
                 variables.token = OAuthService.createToken(
-                    username = application.env[ "GITHUB_USERNAME" ],
-                    password = application.env[ "GITHUB_PASSWORD" ],
+                    username = getSystemSetting( "GITHUB_USERNAME" ),
+                    password = getSystemSetting( "GITHUB_PASSWORD" ),
                     note = "cbgithub testing token",
                     scopes = [ "user:email" ]
                 );
@@ -44,8 +44,8 @@ component extends="tests.resources.ModuleIntegrationSpec" appMapping="/app" {
             it( "throws an exception if no scopes are requested", function() {
                 expect( function() {
                     variables.token = OAuthService.createToken(
-                        username = application.env[ "GITHUB_USERNAME" ],
-                        password = application.env[ "GITHUB_PASSWORD" ],
+                        username = getSystemSetting( "GITHUB_USERNAME" ),
+                        password = getSystemSetting( "GITHUB_PASSWORD" ),
                         note = "cbgithub testing token",
                         scopes = []
                     );

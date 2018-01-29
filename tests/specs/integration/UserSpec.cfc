@@ -8,9 +8,9 @@ component extends="tests.resources.ModuleIntegrationSpec" appMapping="/app" {
         describe( "Users", function() {
             it( "can get the currently authenticated user", function() {
                 var User = wirebox.getInstance( "UserService@cbgithub" )
-                    .getAuthenticatedUser( token = application.env[ "GITHUB_TOKEN" ] );
+                    .getAuthenticatedUser( token = getSystemSetting( "GITHUB_TOKEN" ) );
 
-                expect( User.getLogin() ).toBe( application.env[ "GITHUB_USERNAME" ] );
+                expect( User.getLogin() ).toBe( getSystemSetting( "GITHUB_USERNAME" ) );
                 expect( User.isAuthenticatedUser() ).toBeTrue();
             } );
 

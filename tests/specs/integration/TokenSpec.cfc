@@ -22,8 +22,8 @@ component extends="tests.resources.ModuleIntegrationSpec" appMapping="/app" {
 
     private function makeTestToken() {
         var token = OAuthService.createToken(
-            username = application.env[ "GITHUB_USERNAME" ],
-            password = application.env[ "GITHUB_PASSWORD" ],
+            username = getSystemSetting( "GITHUB_USERNAME" ),
+            password = getSystemSetting( "GITHUB_PASSWORD" ),
             note = "cbgithub testing token",
             scopes = [ "user:email" ]
         );

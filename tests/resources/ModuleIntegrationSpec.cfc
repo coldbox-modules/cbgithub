@@ -1,9 +1,7 @@
 component extends="coldbox.system.testing.BaseTestCase" {
 
     function beforeAll() {
-        loadEnv();
         super.beforeAll();
-        loadEnv();
         variables.wirebox = application.wirebox;
         getController().getModuleService()
             .registerAndActivateModule( "cbgithub", "testingModuleRoot" );
@@ -16,18 +14,23 @@ component extends="coldbox.system.testing.BaseTestCase" {
         setup();
     }
 
-    function loadEnv() {
-        var filePath = expandPath( "../.env" );
-        if ( fileExists( filePath ) ) {
-            var properties = createObject( "java", "java.util.Properties" ).init();
-            properties.load( createObject( "java", "java.io.FileInputStream" )
-                .init( filePath ) );
-
-            application.env = {};
-            for ( var key in properties ) {
-                application.env[ key ] = properties[ key ];
-            }
+    function getSystemSetting( name, defaultValue ) {
+        var system = createObject( "java", "java.lang.System" );
+        var envValue = system.getEnv( name );
+        if ( ! isNull( envValue ) ) {
+            return envValue;
         }
+
+        var propertyValue = system.getProperty( name );
+        if ( ! isNull( propertyValue ) ) {
+            return propertyValue;
+        }
+
+        if ( ! isNull( defaultValue ) ) {
+            return defaultValue;
+        }
+
+        throw( "No env var or java system property exists for key [#name#]" );
     }
 
 }

@@ -12,8 +12,8 @@ component extends="tests.resources.ModuleIntegrationSpec" appMapping="/app" {
                 expect( function() {
                     response = APIRequest.get(
                         endpoint = "/user",
-                        username = application.env[ "GITHUB_USERNAME" ],
-                        password = application.env[ "GITHUB_PASSWORD" ]
+                        username = getSystemSetting( "GITHUB_USERNAME" ),
+                        password = getSystemSetting( "GITHUB_PASSWORD" )
                     );
                 } ).notToThrow();
 
@@ -25,7 +25,7 @@ component extends="tests.resources.ModuleIntegrationSpec" appMapping="/app" {
                 expect( function() {
                     response = APIRequest.get(
                         endpoint = "/user",
-                        token = application.env[ "GITHUB_TOKEN" ]
+                        token = getSystemSetting( "GITHUB_TOKEN" )
                     );
                 } ).notToThrow();
 
