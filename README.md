@@ -1,7 +1,7 @@
 # cbgithub
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors)
 
-[![Master Branch Build Status](https://img.shields.io/travis/elpete/cbgithub/master.svg?style=flat-square&label=master)](https://travis-ci.org/elpete/cbgithub)
+[![Master Branch Build Status](https://img.shields.io/travis/coldbox-modules/cbgithub/master.svg?style=flat-square&label=master)](https://travis-ci.org/coldbox-modules/cbgithub)
 
 
 ## A CFML Wrapper around the GitHub API optimized for ColdBox
