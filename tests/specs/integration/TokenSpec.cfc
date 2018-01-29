@@ -29,7 +29,6 @@ component extends="tests.resources.ModuleIntegrationSpec" appMapping="/app" {
         );
 
         expect( token ).notToBeNull();
-        expect( token ).toBeInstanceOf( "cbgithub.models.Token" );
         expect( token.getToken() ).notToHaveLength( 0, "The token shouldn't be blank" );
 
         return token;
